@@ -1,47 +1,88 @@
-// Merge two subarrays L and M into arr
-void merge(int arr[], int p, int q, int r) {
+// C++ program for Merge Sort
+#include <iostream>
+using namespace std;
 
-    // Create L ← A[p..q] and M ← A[q+1..r]
-    int n1 = q - p + 1;
-    int n2 = r - q;
+// Merges two subarrays of arr[].
+void merge(int arr[], int l, int m, int r)
+{
+	int n1 = m - l + 1;
+	int n2 = r - m;
 
-    int L[n1], M[n2];
+	// Create temp arrays
+	int L[n1], R[n2];
 
-    for (int i = 0; i < n1; i++)
-        L[i] = arr[p + i];
-    for (int j = 0; j < n2; j++)
-        M[j] = arr[q + 1 + j];
+	// Copy data to temp arrays L[] and R[]
+	for (int i = 0; i < n1; i++)
+		L[i] = arr[l + i];
+	for (int j = 0; j < n2; j++)
+		R[j] = arr[m + 1 + j];
 
-    // Maintain current index of sub-arrays and main array
-    int i, j, k;
-    i = 0;
-    j = 0;
-    k = p;
+	// Initial index of first subarray
+	int i = 0;
 
-    // Until we reach either end of either L or M, pick larger among
-    // elements L and M and place them in the correct position at A[p..r]
-    while (i < n1 && j < n2) {
-        if (L[i] <= M[j]) {
-            arr[k] = L[i];
-            i++;
-        } else {
-            arr[k] = M[j];
-            j++;
-        }
-        k++;
-    }
+	// Initial index of second subarray
+	int j = 0;
 
-    // When we run out of elements in either L or M,
-    // pick up the remaining elements and put in A[p..r]
-    while (i < n1) {
-        arr[k] = L[i];
-        i++;
-        k++;
-    }
+	// Initial index of merged subarray
+	int k = l;
 
-    while (j < n2) {
-        arr[k] = M[j];
-        j++;
-        k++;
-    }
+	while (i < n1 && j < n2) {
+		if (L[i] <= R[j]) {
+			arr[k] = L[i];
+			i++;
+		}
+		else {
+			arr[k] = R[j];
+			j++;
+		}
+		k++;
+	}
+
+	// Copy the remaining elements of
+	// L[], if there are any
+	while (i < n1) {
+		arr[k] = L[i];
+		i++;
+		k++;
+	}
+
+	// Copy the remaining elements of
+	// R[], if there are any
+	while (j < n2) {
+		arr[k] = R[j];
+		j++;
+		k++;
+	}
+}
+
+void mergeSort(int arr[],int l,int r){
+	if(l>=r){
+		return;//returns recursively
+	}
+	int m = (l+r)/2;
+	mergeSort(arr,l,m);
+	mergeSort(arr,m+1,r);
+	merge(arr,l,m,r);
+}
+
+// Function to print an array
+void printArray(int A[], int size)
+{
+	for (int i = 0; i < size; i++)
+		cout << A[i] << " ";
+}
+
+int main()
+{
+	int arr[] = { 3,5,12,35,78};
+	int arr_size = sizeof(arr) / sizeof(arr[0]);
+
+	cout << "Given array is \n";
+	printArray(arr, arr_size);
+
+	mergeSort(arr, 0, arr_size - 1);
+
+	cout << "\nSorted array is \n";
+	printArray(arr, arr_size);
+	return 0;
 }
