@@ -2,6 +2,7 @@
  all sorting algorithms and codes
 
 # ALGORITHMS
+ ## Bubble Sort
   begin BubbleSort(list)
 
    for all elements of list
